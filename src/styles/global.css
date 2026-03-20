@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 120px;
+    background-color: #0a0a0a;
+    color: #FAFAFA;
+    font-family: 'mendl-serif-dusk', Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #CDAF39;
+    color: #0a0a0a;
+  }
+
+  /* Focus styles for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible,
+  input:focus-visible {
+    outline: 2px solid #CDAF39;
+    outline-offset: 2px;
+  }
+}
