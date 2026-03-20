@@ -1,0 +1,122 @@
+---
+const storyText = 'Aus einer innovativen Idee entstand ein trendiger Proteinriegel, der Funktionalität neu interpretiert – der Gold Digger. Hoher Proteingehalt, intelligente Ballaststoffe, klar definiert. Ohne Überfluss. Ohne Schnickschnack. Denn wer das Gold hat, macht die Regeln!'
+const quoteText = '„Wir wollten keinen weiteren Riegel. Wir wollten den Riegel, den wir selbst immer gesucht haben."'
+---
+
+<section class="py-20 lg:py-32 px-4">
+  <div class="max-w-4xl mx-auto">
+    <!-- Scroll Text -->
+    <p class="story-scroll-text text-2xl lg:text-4xl xl:text-5xl font-bold leading-relaxed lg:leading-relaxed mb-20 lg:mb-32">
+      {storyText}
+    </p>
+
+    <!-- Quote Block -->
+    <div class="flex flex-col items-center text-center">
+      <div class="w-20 h-20 lg:w-24 lg:h-24 rounded-full overflow-hidden mb-8 border-2 border-brand-500/30">
+        <img
+          src="/images/FF-Bust_online.avif"
+          alt="Feicht & Frank"
+          width="96"
+          height="96"
+          loading="lazy"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <blockquote class="text-lg lg:text-xl text-white/70 italic max-w-2xl mb-4">
+        {quoteText}
+      </blockquote>
+      <cite class="text-brand-500 not-italic text-sm tracking-widest uppercase">
+        — Oliver Feicht —
+      </cite>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-scroll-text :global(.word) {
+    display: inline;
+    color: transparent;
+    background-image: linear-gradient(
+      90deg,
+      #FAFAFA var(--progress, 0%),
+      rgba(250, 250, 250, 0.15) var(--progress, 0%)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: none;
+  }
+
+  .story-scroll-text :global(.word.gd-highlight) {
+    background-image: linear-gradient(
+      90deg,
+      #CDAF39 var(--progress, 0%),
+      rgba(205, 175, 57, 0.15) var(--progress, 0%)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  function splitWords(element: HTMLElement): HTMLSpanElement[] {
+    const text = element.textContent || ''
+    element.innerHTML = ''
+    const words: HTMLSpanElement[] = []
+
+    const parts = text.split(/(\s+)/)
+    parts.forEach((part) => {
+      if (/^\s+$/.test(part)) {
+        element.appendChild(document.createTextNode(part))
+      } else if (part) {
+        const span = document.createElement('span')
+        span.className = 'word'
+        span.textContent = part
+        span.style.setProperty('--progress', '0%')
+        element.appendChild(span)
+        words.push(span)
+      }
+    })
+
+    return words
+  }
+
+  function initScrollText() {
+    document.querySelectorAll<HTMLElement>('.story-scroll-text').forEach((el) => {
+      if (el.dataset.initialized) return
+      el.dataset.initialized = 'true'
+
+      const words = splitWords(el)
+
+      for (let i = 0; i < words.length - 1; i++) {
+        const current = words[i].textContent?.trim().toLowerCase()
+        const next = words[i + 1].textContent?.trim().toLowerCase()
+        if (current === 'gold' && next?.startsWith('digger')) {
+          words[i].classList.add('gd-highlight')
+          words[i + 1].classList.add('gd-highlight')
+        }
+      }
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: 'clamp(top center)',
+          end: 'clamp(bottom center)',
+          scrub: 1,
+        },
+      })
+
+      tl.fromTo(
+        words,
+        { '--progress': '0%' },
+        { '--progress': '100%', stagger: 0.5, ease: 'none' }
+      )
+    })
+  }
+
+  document.addEventListener('DOMContentLoaded', initScrollText)
+</script>

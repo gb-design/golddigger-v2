@@ -1,0 +1,48 @@
+---
+import Marquee from './Marquee.astro'
+
+const goldItems = Array(8).fill('GOLD')
+const richtigItems = Array(8).fill('richtig!')
+---
+
+<section class="relative py-16 lg:py-24 overflow-hidden">
+  <div class="text-center mb-8">
+    <h2 class="text-3xl lg:text-5xl font-bold">
+      Du bi<span class="text-brand-500">ss</span>t hier ...
+    </h2>
+  </div>
+
+  <!-- Track 1: GOLD (reverse) -->
+  <Marquee reverse duration="15s" class="mb-4">
+    <div class="flex items-center gap-8 px-4">
+      {goldItems.map(() => (
+        <span class="text-6xl lg:text-8xl font-bold text-brand-500/10 uppercase tracking-widest select-none">
+          GOLD
+        </span>
+      ))}
+    </div>
+  </Marquee>
+
+  <!-- Track 2: richtig! -->
+  <Marquee duration="18s">
+    <div class="flex items-center gap-8 px-4">
+      {richtigItems.map(() => (
+        <span class="text-6xl lg:text-8xl font-bold text-brand-500/10 uppercase tracking-widest select-none">
+          richtig!
+        </span>
+      ))}
+    </div>
+  </Marquee>
+
+  <!-- Riegel Explosion overlay -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <img
+      src="/images/riegel-explosion_transparent-1.avif"
+      alt="Gold Digger Riegel Explosion"
+      width="600"
+      height="400"
+      loading="lazy"
+      class="w-full max-w-lg lg:max-w-xl h-auto"
+    />
+  </div>
+</section>

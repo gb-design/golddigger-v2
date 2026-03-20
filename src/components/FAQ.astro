@@ -1,0 +1,97 @@
+---
+import { faqItems } from '../data/faq'
+---
+
+<section id="home-faq" class="py-20 lg:py-32 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-[1fr_1.5fr] gap-12 lg:gap-16">
+      <!-- Left: Title (sticky on desktop) -->
+      <div class="lg:sticky lg:top-32 lg:self-start">
+        <h2 class="text-3xl lg:text-5xl font-bold mb-4">
+          F.A.<span class="text-brand-500">Crunchy</span>
+        </h2>
+        <p class="text-white/60 text-lg">
+          Die wichtigsten Fragen rund um den Gold Digger Proteinriegel.
+        </p>
+      </div>
+
+      <!-- Right: Accordion -->
+      <div class="accordion-wrap">
+        {faqItems.map((item, index) => (
+          <div class:list={['accordion-item border-b border-brand-500/10', index === 0 && 'is-active']}>
+            <h3>
+              <button
+                class="accordion-toggle w-full flex items-center justify-between py-5 text-left gap-4"
+                aria-expanded={index === 0 ? 'true' : 'false'}
+              >
+                <span class="text-lg font-bold">{item.question}</span>
+                <svg
+                  class="w-5 h-5 text-brand-500 flex-shrink-0 transition-transform duration-300 [.is-active_&]:rotate-45"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" />
+                </svg>
+              </button>
+            </h3>
+            <div
+              class="accordion-content grid transition-[grid-template-rows] duration-300 ease-in-out"
+              style={index === 0 ? 'grid-template-rows: 1fr' : 'grid-template-rows: 0fr'}
+              role="region"
+            >
+              <div class="overflow-hidden">
+                <p class="pb-5 text-white/60 leading-relaxed">{item.answer}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initAccordion() {
+    document.querySelectorAll<HTMLElement>('.accordion-wrap').forEach((wrap) => {
+      if (wrap.dataset.initialized) return
+      wrap.dataset.initialized = 'true'
+
+      const items = wrap.querySelectorAll<HTMLElement>('.accordion-item')
+
+      items.forEach((item, index) => {
+        const button = item.querySelector<HTMLButtonElement>('.accordion-toggle')
+        const content = item.querySelector<HTMLElement>('.accordion-content')
+        if (!button || !content) return
+
+        const buttonId = `faq-btn-${index}`
+        const contentId = `faq-content-${index}`
+        button.id = buttonId
+        button.setAttribute('aria-controls', contentId)
+        content.id = contentId
+        content.setAttribute('aria-labelledby', buttonId)
+
+        button.addEventListener('click', () => {
+          const isActive = item.classList.contains('is-active')
+
+          items.forEach((otherItem) => {
+            const otherBtn = otherItem.querySelector<HTMLButtonElement>('.accordion-toggle')
+            const otherContent = otherItem.querySelector<HTMLElement>('.accordion-content')
+            if (otherBtn && otherContent) {
+              otherItem.classList.remove('is-active')
+              otherBtn.setAttribute('aria-expanded', 'false')
+              otherContent.style.gridTemplateRows = '0fr'
+            }
+          })
+
+          if (!isActive) {
+            item.classList.add('is-active')
+            button.setAttribute('aria-expanded', 'true')
+            content.style.gridTemplateRows = '1fr'
+          }
+        })
+      })
+    })
+  }
+
+  document.addEventListener('DOMContentLoaded', initAccordion)
+</script>

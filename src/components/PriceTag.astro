@@ -1,0 +1,17 @@
+---
+import { product } from '../data/product'
+
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<span class:list={[
+  'inline-flex items-center gap-1 px-4 py-2 rounded-full',
+  'bg-brand-500 text-surface-900 font-bold text-lg',
+  className,
+]}>
+  EUR {product.price.toFixed(2).replace('.', ',')}
+</span>

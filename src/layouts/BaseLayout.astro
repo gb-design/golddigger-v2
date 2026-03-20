@@ -1,0 +1,113 @@
+---
+import '../styles/global.css'
+import { product } from '../data/product'
+import { faqItems } from '../data/faq'
+
+interface Props {
+  title: string
+  description: string
+  ogImage?: string
+  includeFaqSchema?: boolean
+  includeProductSchema?: boolean
+}
+
+const {
+  title,
+  description,
+  ogImage = '/images/gd_riegelFoil.avif',
+  includeFaqSchema = false,
+  includeProductSchema = false,
+} = Astro.props
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site)
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: product.brand.name,
+  url: product.brand.url,
+  logo: `${Astro.site}images/gd_logo_wide.png`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: product.contact.email,
+  },
+  sameAs: [product.social.instagram, product.social.facebook],
+}
+
+const productSchema = includeProductSchema
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      description: product.description,
+      image: `${Astro.site}images/gd_riegelFoil.avif`,
+      brand: { '@type': 'Brand', name: product.brand.name },
+      sku: product.sku,
+      offers: {
+        '@type': 'Offer',
+        price: product.price,
+        priceCurrency: product.currency,
+        availability: 'https://schema.org/InStock',
+        url: product.shopUrl,
+      },
+    }
+  : null
+
+const faqSchema = includeFaqSchema
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    }
+  : null
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_AT" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <link rel="apple-touch-icon" href="/images/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/gaq1cqv.css" />
+
+    <!-- Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    {productSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+    )}
+    {faqSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    )}
+  </head>
+  <body class="bg-surface-900 text-white font-serif">
+    <slot />
+  </body>
+</html>

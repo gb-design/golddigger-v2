@@ -1,0 +1,135 @@
+---
+import { product } from '../data/product'
+
+const navLinks = [
+  { label: 'Produktdetails', href: '#home-details' },
+  { label: 'Verfügbarkeit', href: '#home-availability' },
+  { label: 'Gewinnspiel', href: '#home-win' },
+  { label: 'FAQ', href: '#home-faq' },
+  { label: 'Kontakt', href: `mailto:${product.contact.email}` },
+]
+---
+
+<!-- Skip to content -->
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-500 focus:text-surface-900 focus:rounded-full focus:font-bold"
+>
+  Zum Inhalt springen
+</a>
+
+<!-- Scroll sentinel -->
+<div id="nav-sentinel" class="absolute top-0 h-1 w-full"></div>
+
+<header
+  data-nav
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent [&.is-scrolled]:bg-surface-900/95 [&.is-scrolled]:backdrop-blur-md [&.is-scrolled]:border-brand-500/10"
+>
+  <nav class="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between h-20" aria-label="Hauptnavigation">
+    <!-- Logo -->
+    <a href="/" class="flex-shrink-0">
+      <img
+        src="/images/gd_logo_wide.png"
+        alt="Gold Digger Logo"
+        width="160"
+        height="40"
+        class="h-8 lg:h-10 w-auto"
+      />
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden lg:flex items-center gap-8">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="text-sm text-white/70 hover:text-brand-500 transition-colors"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Desktop CTA -->
+    <a
+      href={product.shopUrl}
+      target="_blank"
+      rel="noopener"
+      class="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 bg-brand-500 text-surface-900 font-bold text-sm rounded-full hover:bg-brand-400 transition-colors"
+    >
+      Online bestellen
+    </a>
+
+    <!-- Mobile Hamburger -->
+    <button
+      data-nav-toggle
+      class="lg:hidden relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+    >
+      <span class="block w-6 h-0.5 bg-white transition-all duration-300 origin-center [.is-open_&]:translate-y-[4px] [.is-open_&]:rotate-45"></span>
+      <span class="block w-6 h-0.5 bg-white transition-all duration-300 [.is-open_&]:opacity-0"></span>
+      <span class="block w-6 h-0.5 bg-white transition-all duration-300 origin-center [.is-open_&]:-translate-y-[4px] [.is-open_&]:-rotate-45"></span>
+    </button>
+
+    <!-- Mobile Menu -->
+    <div
+      data-nav-menu
+      class="fixed inset-0 bg-surface-900/98 z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto lg:hidden"
+    >
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="text-2xl text-white/80 hover:text-brand-500 transition-colors"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href={product.shopUrl}
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-brand-500 text-surface-900 font-bold rounded-full hover:bg-brand-400 transition-colors"
+      >
+        Online bestellen
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function initNav() {
+    const sentinel = document.getElementById('nav-sentinel')
+    const header = document.querySelector('[data-nav]') as HTMLElement | null
+    if (sentinel && header) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          header.classList.toggle('is-scrolled', !entry.isIntersecting)
+        },
+        { threshold: 0 }
+      )
+      observer.observe(sentinel)
+    }
+
+    const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null
+    const menu = document.querySelector('[data-nav-menu]') as HTMLElement | null
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('is-open')
+        toggle.setAttribute('aria-expanded', String(isOpen))
+        document.body.classList.toggle('overflow-hidden', isOpen)
+      })
+
+      menu.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('is-open')
+          toggle.setAttribute('aria-expanded', 'false')
+          document.body.classList.remove('overflow-hidden')
+        })
+      })
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initNav)
+</script>

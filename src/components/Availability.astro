@@ -1,0 +1,62 @@
+---
+import Marquee from './Marquee.astro'
+import PriceTag from './PriceTag.astro'
+import { partners } from '../data/partners'
+import { product } from '../data/product'
+---
+
+<section id="home-availability" class="py-20 lg:py-32 px-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-12 lg:mb-16">
+      <h2 class="text-3xl lg:text-5xl font-bold mb-6">
+        Jetzt zugreifen, solange das Gold heiß ist
+      </h2>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto mb-6">
+        Ab sofort im Handel erhältlich — bei ausgewählten Partnern in ganz Österreich
+        oder bequem <a href={product.shopUrl} target="_blank" rel="noopener" class="text-brand-500 underline underline-offset-4 hover:text-brand-400 transition-colors">online bestellen</a>.
+      </p>
+      <PriceTag />
+    </div>
+
+    <!-- Map -->
+    <div class="rounded-2xl overflow-hidden border border-brand-500/10 mb-16">
+      <iframe
+        src="https://www.google.com/maps/d/embed?mid=1P8H1DhgYwWx7EFCR8wg481RJGkNbHLA&ehbc=2E312F"
+        width="100%"
+        height="480"
+        style="border:0"
+        loading="lazy"
+        title="Gold Digger Verkaufsstellen"
+        class="w-full"
+      ></iframe>
+    </div>
+
+    <!-- Partner Logos Marquee -->
+    <div class="mb-4 text-center">
+      <p class="text-xs uppercase tracking-widest text-white/30 mb-6">Unsere Partner</p>
+    </div>
+    <Marquee duration="30s">
+      <div class="flex items-center gap-12 px-6">
+        {partners.map((partner) => (
+          <a
+            href={partner.url}
+            target="_blank"
+            rel="noopener"
+            class="flex-shrink-0 opacity-50 hover:opacity-100 transition-opacity"
+            title={partner.name}
+          >
+            <img
+              src={`/images/${partner.logo}`}
+              alt={partner.name}
+              width={partner.width}
+              height={partner.height}
+              loading="lazy"
+              class="h-8 lg:h-10 w-auto object-contain invert brightness-0 invert"
+            />
+          </a>
+        ))}
+      </div>
+    </Marquee>
+  </div>
+</section>

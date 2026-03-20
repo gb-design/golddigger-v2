@@ -1,0 +1,82 @@
+---
+import { product } from '../data/product'
+
+const diamondSvg = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0L12 6L6 12L0 6L6 0Z" fill="#CDAF39"/></svg>`
+
+const stats = [
+  { gd: '31% Protein', comp: '17% Protein' },
+  { gd: 'Handgemacht', comp: 'Massenprodukt' },
+  { gd: '100% Motivation', comp: 'Max. Langeweile' },
+]
+---
+
+<section class="py-20 lg:py-32 px-4">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h3 class="text-3xl lg:text-4xl font-bold mb-4">
+        Ein Stück Motivation gegen Hunger
+      </h3>
+      <p class="text-white/60 text-lg max-w-xl mx-auto">
+        Besserer Snack. Bessere Zutaten. Besseres Gefühl.
+      </p>
+    </div>
+
+    <!-- Comparison -->
+    <div class="grid md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
+      <!-- Gold Digger -->
+      <div class="text-center">
+        <div class="mb-6">
+          <img
+            src="/images/gd_Riegel_topView-1.avif"
+            alt="Gold Digger Riegel"
+            width="400"
+            height="200"
+            loading="lazy"
+            class="w-full max-w-sm mx-auto h-auto"
+          />
+        </div>
+        <h4 class="text-xl font-bold text-brand-500 mb-1">Gold Digger</h4>
+        <p class="text-white/50 text-sm mb-6">{product.weight}</p>
+        <div class="space-y-4">
+          {stats.map((stat) => (
+            <div class="flex items-center gap-3 justify-center">
+              <Fragment set:html={diamondSvg} />
+              <span class="font-bold">{stat.gd}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- VS Divider -->
+      <div class="flex flex-col items-center gap-4 py-8">
+        <div class="w-px h-16 bg-gradient-to-b from-transparent to-brand-500/30 hidden md:block"></div>
+        <span class="text-2xl font-bold text-brand-500">VS.</span>
+        <div class="w-px h-16 bg-gradient-to-b from-brand-500/30 to-transparent hidden md:block"></div>
+      </div>
+
+      <!-- Competitor -->
+      <div class="text-center opacity-50">
+        <div class="mb-6">
+          <img
+            src="/images/RiegelMitbewerb-1.avif"
+            alt="Herkömmlicher Proteinriegel"
+            width="400"
+            height="200"
+            loading="lazy"
+            class="w-full max-w-sm mx-auto h-auto grayscale"
+          />
+        </div>
+        <h4 class="text-xl font-bold mb-1">Herkömmlicher Riegel</h4>
+        <p class="text-white/50 text-sm mb-6">30g</p>
+        <div class="space-y-4">
+          {stats.map((stat) => (
+            <div class="flex items-center gap-3 justify-center">
+              <span class="text-white/40">{stat.comp}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

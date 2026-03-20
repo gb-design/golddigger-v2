@@ -1,13 +1,39 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Hero from '../components/Hero.astro'
+import BrandStory from '../components/BrandStory.astro'
+import Divider from '../components/Divider.astro'
+import ProductDetails from '../components/ProductDetails.astro'
+import ProductComparison from '../components/ProductComparison.astro'
+import GoldBanner from '../components/GoldBanner.astro'
+import Availability from '../components/Availability.astro'
+import Newsletter from '../components/Newsletter.astro'
+import Gewinnspiel from '../components/Gewinnspiel.astro'
+import FAQ from '../components/FAQ.astro'
+import Footer from '../components/Footer.astro'
 ---
 
-<html lang="de">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gold Digger</title>
-  </head>
-  <body>
-    <h1>Gold Digger</h1>
-  </body>
-</html>
+<BaseLayout
+  title="Gold Digger — Der Proteinriegel der motiviert | EUR 2,99"
+  description="Gold Digger Proteinriegel: 31% Protein, 1,9g Zucker, handgemacht. Jetzt bei Billa, SPAR und online ab EUR 2,99."
+  includeProductSchema
+  includeFaqSchema
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <Divider />
+    <BrandStory />
+    <Divider />
+    <ProductDetails />
+    <ProductComparison />
+    <GoldBanner />
+    <Availability />
+    <Newsletter />
+    <Divider />
+    <Gewinnspiel />
+    <FAQ />
+  </main>
+  <Footer />
+</BaseLayout>

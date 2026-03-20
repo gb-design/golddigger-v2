@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+---
+
+<BaseLayout
+  title="Impressum — Gold Digger"
+  description="Impressum der Gold Digger Website."
+>
+  <Nav />
+  <main id="main" class="pt-28 pb-20 px-4">
+    <div class="max-w-3xl mx-auto">
+      <a href="/" class="inline-flex items-center gap-2 text-brand-500 text-sm mb-8 hover:text-brand-400 transition-colors">
+        &larr; Zurück zur Startseite
+      </a>
+
+      <h1 class="text-4xl lg:text-5xl font-bold mb-12">Impressum</h1>
+
+      <div class="space-y-8 text-white/70 leading-relaxed">
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Inhaber der Website</h2>
+          <p>Oliver Feicht<br />A-1210 Wien</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Kontakt</h2>
+          <p>E: <a href="mailto:of@feicht.at" class="text-brand-500 underline underline-offset-2 hover:text-brand-400">of@feicht.at</a></p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Grundlegende Richtung der Website</h2>
+          <p>Diese Website stellt Informationen zum Produkt "Gold Digger" und Leistungen unseres Unternehmens dar.</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Unternehmensgegenstand</h2>
+          <p>Eventorganisation, Moderation</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Mitgliedschaft bei Kammerorganisationen</h2>
+          <p>Wirtschaftskammer Wien, Fachgruppe Freizeitbetriebe</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Behörde</h2>
+          <p>Magistratisches Bezirksamt für den 21. Bezirk</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Gewerbe- oder berufsrechtliche Vorschriften</h2>
+          <p>Österreichische Gewerbeordnung</p>
+          <p class="mt-2">Etwaige spezielle berufsrechtliche Vorschriften finden Sie im Rechtsinformationssystem des Bundes unter <a href="http://www.ris.bka.gv.at/" target="_blank" rel="noopener" class="text-brand-500 underline underline-offset-2 hover:text-brand-400">ris.bka.gv.at</a>.</p>
+        </section>
+
+        <section>
+          <h2 class="text-xl font-bold text-white mb-3">Branding, Webdesign und Entwicklung</h2>
+          <p><a href="https://www.instagram.com/georgeandburn/" target="_blank" rel="noopener" class="text-brand-500 underline underline-offset-2 hover:text-brand-400">g&b Design Co.</a></p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
